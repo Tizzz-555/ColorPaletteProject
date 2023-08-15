@@ -31,13 +31,21 @@ def get_colors(msg):
     A:
     """
 
-    response = openai.Completion.create(
-        prompt=prompt,
-        model="text-davinci-003",
-        max_tokens=200,
-    )
+    # response = openai.Completion.create(
+    #     prompt=prompt,
+    #     model="text-davinci-003",
+    #     max_tokens=200,
+    # )
 
-    colors = json.loads(response["choices"][0]["text"])
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": prompt},
+        ],
+    )
+    # colors = json.loads(response["choices"][0]["text"])
+    colors = json.loads(response.choices[0].message.content)
     return colors
 
 
